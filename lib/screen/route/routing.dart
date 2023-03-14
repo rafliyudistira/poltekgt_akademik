@@ -7,6 +7,9 @@ class AppRoute {
     GoRoute(
         path: "/login", name: 'login', builder: (context, state) => LoginMHS()),
     GoRoute(
-        path: '/home', name: 'home', builder: (context, state) => MainMenu())
+      path: '/home',
+      name: 'home',
+      builder: (context, state) => MainMenu(),
+    )
   ], initialLocation: "/login", routerNeglect: true);
 }
