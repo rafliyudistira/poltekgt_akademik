@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class MainMenu extends StatelessWidget {
@@ -93,33 +94,40 @@ class ListMenu extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, crossAxisSpacing: 15, mainAxisSpacing: 15),
         itemBuilder: (context, index) {
-          return Container(
-            decoration: BoxDecoration(
+          return Material(
+            borderRadius: BorderRadius.circular(20),
+            color: menuList[index].color,
+            child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              color: menuList[index].color,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white.withOpacity(0.5),
-                  radius: 30,
-                  child: Center(
-                      child: Image.asset(
-                    'assets/image/${menuList[index].image}',
-                    scale: 15,
-                    color: menuList[index].t_color,
-                  )),
+              splashColor: Colors.grey.shade200,
+              onTap: () {
+                context.goNamed('${menuList[index].navigate}');
+              },
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white.withOpacity(0.5),
+                      radius: 30,
+                      child: Center(
+                          child: Image.asset(
+                        'assets/image/${menuList[index].image}',
+                        scale: 15,
+                        color: menuList[index].tcolor,
+                      )),
+                    ),
+                    Text(
+                      menuList[index].title,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: menuList[index].tcolor),
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
                 ),
-                Text(
-                  menuList[index].title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: menuList[index].t_color),
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                )
-              ],
+              ),
             ),
           );
         },
@@ -131,44 +139,52 @@ class ListMenu extends StatelessWidget {
 class Menu {
   final String title;
   final Color color;
-  final Color t_color;
+  final Color tcolor;
   final String image;
+  final String navigate;
   const Menu(
       {required this.title,
       required this.color,
-      required this.t_color,
-      required this.image});
+      required this.tcolor,
+      required this.image,
+      required this.navigate});
 }
 
 List<Menu> menuList = <Menu>[
   Menu(
       title: 'Akademik',
       color: Colors.green.shade100,
-      t_color: Colors.green,
-      image: 'akademik.png'),
+      tcolor: Colors.green,
+      image: 'akademik.png',
+      navigate: 'akademik'),
   Menu(
       title: 'Point',
       color: Colors.blue.shade100,
-      t_color: Colors.blue,
-      image: 'spam.png'),
+      tcolor: Colors.blue,
+      image: 'spam.png',
+      navigate: 'point'),
   Menu(
       title: 'Profile',
       color: Colors.purple.shade100,
-      t_color: Colors.purple,
-      image: 'profile.png'),
+      tcolor: Colors.purple,
+      image: 'profile.png',
+      navigate: 'profile'),
   Menu(
       title: 'Ubah Password',
       color: Colors.pink.shade100,
-      t_color: Colors.pink,
-      image: 'setting.png'),
+      tcolor: Colors.pink,
+      image: 'setting.png',
+      navigate: 'ubahpw'),
   Menu(
       title: 'Absensi',
       color: Colors.amber.shade100,
-      t_color: Colors.amber,
-      image: 'map.png'),
+      tcolor: Colors.amber,
+      image: 'map.png',
+      navigate: 'absensi'),
   Menu(
       title: 'Log Out',
       color: Colors.red.shade100,
-      t_color: Colors.red,
-      image: 'logout.png'),
+      tcolor: Colors.red,
+      image: 'logout.png',
+      navigate: 'logout'),
 ];

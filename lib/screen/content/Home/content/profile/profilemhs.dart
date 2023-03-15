@@ -8,7 +8,7 @@ class ProfileMHS extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Profile')),
       body: Column(
-        children: [],
+        children: [Center(child: Text('PROFILE'))],
       ),
     );
   }

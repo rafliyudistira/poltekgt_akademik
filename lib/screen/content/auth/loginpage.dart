@@ -61,12 +61,12 @@ class _LoginMHSState extends State<LoginMHS> {
                             borderSide:
                                 BorderSide(width: 1.5, color: Colors.blue),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
+                                BorderRadius.all(Radius.circular(25))),
                         enabledBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(width: 1.5, color: Colors.grey),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
+                                BorderRadius.all(Radius.circular(25))),
                       ),
                     ),
                   ),
@@ -106,16 +106,16 @@ class _LoginMHSState extends State<LoginMHS> {
                             borderSide:
                                 BorderSide(width: 1.5, color: Colors.blue),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
+                                BorderRadius.all(Radius.circular(25))),
                         enabledBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(width: 1.5, color: Colors.grey),
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
+                                BorderRadius.all(Radius.circular(25))),
                       ),
                     ),
                   ),
-
+                  SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -134,6 +134,7 @@ class _LoginMHSState extends State<LoginMHS> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 5),
                   InkWell(
                     onTap: () {
                       context.goNamed('home');
@@ -146,7 +147,7 @@ class _LoginMHSState extends State<LoginMHS> {
                       decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
+                              const BorderRadius.all(Radius.circular(25))),
                       child: Center(
                         child: Text(
                           "Sign in",
@@ -361,23 +362,28 @@ class TopSginin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 15, left: 20),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
             'assets/image/poltekgt.png',
-            scale: 4,
+            scale: 5,
           ),
-          const SizedBox(
-            width: 15,
-          ),
+          // const SizedBox(
+          //   width: 15,
+          // ),
           Text(
-            "POLITEKNIK GAJAH TUNGGAL ",
+            "POLITEKNIK GAJAH TUNGGAL",
             style: TextStyle(color: whiteshade, fontSize: 18),
-          )
+          ),
+          Image.asset(
+            'assets/image/poltekgt.png',
+            scale: 5,
+            color: Colors.transparent,
+          ),
         ],
       ),
     );
