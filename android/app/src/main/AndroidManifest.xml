@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sisfo_pgt">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="sisfo_pgt"
         android:name="${applicationName}"

@@ -10,7 +10,7 @@ class AppRoute {
     GoRoute(
         path: '/home',
         name: 'home',
-        builder: (context, state) => MainMenu(),
+        builder: (context, state) => MainMenu(goRouterState: state),
         routes: [
           GoRoute(
             path: 'profile',

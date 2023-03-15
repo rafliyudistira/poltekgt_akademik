@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sisfo_pgt/screen/content/auth/loginpage.dart';
 import 'package:sisfo_pgt/screen/route/routing.dart';
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: AppRoute().route,
+      builder: EasyLoading.init(),
     );
   }
 }
