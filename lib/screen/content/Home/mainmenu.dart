@@ -3,80 +3,85 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class MainMenu extends StatelessWidget {
-  MainMenu({super.key});
+  final GoRouterState? goRouterState;
+  MainMenu({super.key, this.goRouterState});
 
   String dateNow = DateFormat('EEEE ,dd MMM yyyy').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-              flex: 3,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(25),
-                        bottomRight: Radius.circular(25))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset('assets/image/poltekgt.png', scale: 5),
-                        ],
+    final String namaMhs = goRouterState!.queryParams['nama'] as String;
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+                flex: 3,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(25),
+                          bottomRight: Radius.circular(25))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.asset('assets/image/poltekgt.png', scale: 5),
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Hi , Bagas Bote',
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Hi , ${namaMhs}',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white)),
+                            Text(
+                              'Welcome Back',
                               style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white)),
-                          Text(
-                            'Welcome Back',
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )
-                        ],
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              )),
-          Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    dateNow.toString(),
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                    ],
                   ),
-                ),
-              )),
-          Expanded(
-            flex: 8,
-            child: Container(
+                )),
+            Expanded(
+                flex: 1,
                 child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListMenu(),
-            )),
-          )
-        ],
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      dateNow.toString(),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                    ),
+                  ),
+                )),
+            Expanded(
+              flex: 8,
+              child: Container(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListMenu(),
+              )),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -101,7 +106,11 @@ class ListMenu extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               splashColor: Colors.grey.shade200,
               onTap: () {
-                context.goNamed('${menuList[index].navigate}');
+                if (menuList[index].navigate == 'logout') {
+                  context.goNamed('login');
+                } else {
+                  context.goNamed('${menuList[index].navigate}');
+                }
               },
               child: Container(
                 child: Column(
