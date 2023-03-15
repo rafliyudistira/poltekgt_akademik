@@ -24,7 +24,7 @@ class _LoginMHSState extends State<LoginMHS> {
   bool _visible = true;
 
   void login(BuildContext context) async {
-    // ip local
+    // ganti ip dengan ip local anda
     var url = "http://192.168.43.34/back_sisfo/LoginAuth.php";
     var response = await http
         .post(Uri.parse(url), body: {"nim": _nim.text, "password": _pass.text});
