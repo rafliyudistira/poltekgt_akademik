@@ -52,6 +52,12 @@ class _LoginMHSState extends State<LoginMHS> {
 
         print('Bisa login');
       } else {
+        Fluttertoast.showToast(
+            msg: "Akun anda tidak aktif!",
+            toastLength: Toast.LENGTH_SHORT,
+            fontSize: 16,
+            backgroundColor: Colors.red,
+            gravity: ToastGravity.CENTER);
         print('gabisa login');
       }
     }
