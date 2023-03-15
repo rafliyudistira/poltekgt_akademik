@@ -44,6 +44,7 @@ class _LoginMHSState extends State<LoginMHS> {
       if (data[0]['status'] == 'Aktif') {
         setState(() {
           namaMhs = data[0]['nama'];
+          nimMhs = data[0]['nim'];
         });
         EasyLoading.show(status: 'Loading..');
         Future.delayed(Duration(seconds: 2), () => EasyLoading.dismiss());
