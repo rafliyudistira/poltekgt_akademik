@@ -1,16 +1,30 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:sisfo_pgt/screen/model/model_mahasiswa.dart';
+import 'package:http/http.dart' as http;
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   final GoRouterState? goRouterState;
   MainMenu({super.key, this.goRouterState});
 
+  @override
+  State<MainMenu> createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> {
   String dateNow = DateFormat('EEEE ,dd MMM yyyy').format(DateTime.now());
+  int nimMahasiwa = 0;
 
   @override
   Widget build(BuildContext context) {
-    final String namaMhs = goRouterState!.queryParams['nama'] as String;
+    String namaMhs = widget.goRouterState!.queryParams['nama'] as String;
+    String nimMhs = widget.goRouterState!.queryParams['nim'] as String;
+    setState(() {
+      nimMahasiwa = int.parse(nimMhs);
+    });
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -53,7 +67,17 @@ class MainMenu extends StatelessWidget {
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
-                            )
+                            ),
+                            // FutureBuilder<http.Response>(
+                            //   future: getNimMahasiswa(nimMahasiwa),
+                            //   builder: (context, snapshot) {
+                            //     if (snapshot.hasData) {
+                            //       var json = jsonDecode(snapshot.data!.body);
+                            //       return Text(json['kelas']);
+                            //     }
+                            //     return Container();
+                            //   },
+                            // )
                           ],
                         ),
                       ),
@@ -77,7 +101,77 @@ class MainMenu extends StatelessWidget {
               child: Container(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListMenu(),
+                child: Container(
+                  child: GridView.builder(
+                    itemCount: menuList.length,
+                    scrollDirection: Axis.vertical,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15),
+                    itemBuilder: (context, index) {
+                      return Material(
+                        borderRadius: BorderRadius.circular(20),
+                        color: menuList[index].color,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(20),
+                          splashColor: Colors.grey.shade200,
+                          onTap: () {
+                            if (menuList[index].navigate == 'logout') {
+                              context.goNamed('login');
+                            } else if (menuList[index].navigate == 'profile') {
+                              context.goNamed('profile', queryParams: {
+                                "nim": nimMhs,
+                                "nama": namaMhs
+                              });
+                            } else if (menuList[index].navigate == 'akademik') {
+                              context.goNamed('akademik', queryParams: {
+                                "nama": namaMhs,
+                                "nim": nimMhs
+                              });
+                            } else {
+                              const snackbar = SnackBar(
+                                backgroundColor: Colors.grey,
+                                content: Text('Coming Soon!'),
+                                behavior: SnackBarBehavior.floating,
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackbar);
+                              // context.goNamed('${menuList[index].navigate}');
+                            }
+                          },
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor:
+                                      Colors.white.withOpacity(0.5),
+                                  radius: 30,
+                                  child: Center(
+                                      child: Image.asset(
+                                    'assets/image/${menuList[index].image}',
+                                    scale: 15,
+                                    color: menuList[index].tcolor,
+                                  )),
+                                ),
+                                Text(
+                                  menuList[index].title,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: menuList[index].tcolor),
+                                  overflow: TextOverflow.clip,
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               )),
             )
           ],
@@ -87,63 +181,65 @@ class MainMenu extends StatelessWidget {
   }
 }
 
-class ListMenu extends StatelessWidget {
-  const ListMenu({super.key});
+// class ListMenu extends StatelessWidget {
+//   const ListMenu({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: GridView.builder(
-        itemCount: menuList.length,
-        scrollDirection: Axis.vertical,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, crossAxisSpacing: 15, mainAxisSpacing: 15),
-        itemBuilder: (context, index) {
-          return Material(
-            borderRadius: BorderRadius.circular(20),
-            color: menuList[index].color,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
-              splashColor: Colors.grey.shade200,
-              onTap: () {
-                if (menuList[index].navigate == 'logout') {
-                  context.goNamed('login');
-                } else {
-                  context.goNamed('${menuList[index].navigate}');
-                }
-              },
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white.withOpacity(0.5),
-                      radius: 30,
-                      child: Center(
-                          child: Image.asset(
-                        'assets/image/${menuList[index].image}',
-                        scale: 15,
-                        color: menuList[index].tcolor,
-                      )),
-                    ),
-                    Text(
-                      menuList[index].title,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: menuList[index].tcolor),
-                      overflow: TextOverflow.clip,
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: GridView.builder(
+//         itemCount: menuList.length,
+//         scrollDirection: Axis.vertical,
+//         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: 3, crossAxisSpacing: 15, mainAxisSpacing: 15),
+//         itemBuilder: (context, index) {
+//           return Material(
+//             borderRadius: BorderRadius.circular(20),
+//             color: menuList[index].color,
+//             child: InkWell(
+//               borderRadius: BorderRadius.circular(20),
+//               splashColor: Colors.grey.shade200,
+//               onTap: () {
+//                 if (menuList[index].navigate == 'logout') {
+//                   context.goNamed('login');
+//                 } else if (menuList[index].navigate == 'profile') {
+//                   context.goNamed('profile');
+//                 } else {
+//                   context.goNamed('${menuList[index].navigate}');
+//                 }
+//               },
+//               child: Container(
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   children: [
+//                     CircleAvatar(
+//                       backgroundColor: Colors.white.withOpacity(0.5),
+//                       radius: 30,
+//                       child: Center(
+//                           child: Image.asset(
+//                         'assets/image/${menuList[index].image}',
+//                         scale: 15,
+//                         color: menuList[index].tcolor,
+//                       )),
+//                     ),
+//                     Text(
+//                       menuList[index].title,
+//                       style: TextStyle(
+//                           fontWeight: FontWeight.w500,
+//                           color: menuList[index].tcolor),
+//                       overflow: TextOverflow.clip,
+//                       textAlign: TextAlign.center,
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class Menu {
   final String title;

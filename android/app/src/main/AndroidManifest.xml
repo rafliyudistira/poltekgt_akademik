@@ -2,9 +2,9 @@
     package="com.example.sisfo_pgt">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="sisfo_pgt"
+        android:label="Sisfo PGT"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

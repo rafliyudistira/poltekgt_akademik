@@ -25,7 +25,7 @@ class _LoginMHSState extends State<LoginMHS> {
 
   void login(BuildContext context) async {
     // ganti ip dengan ip local anda
-    var url = "http://192.168.43.34/back_sisfo/LoginAuth.php";
+    var url = "http://192.168.137.235/back_sisfo/login";
     var response = await http
         .post(Uri.parse(url), body: {"nim": _nim.text, "password": _pass.text});
 
@@ -34,12 +34,12 @@ class _LoginMHSState extends State<LoginMHS> {
     // kondisi buat login
     if (data.length < 1) {
       print('Kosong');
-      Fluttertoast.showToast(
-          msg: "Nim or password is wrong!",
-          toastLength: Toast.LENGTH_SHORT,
-          fontSize: 16,
-          backgroundColor: Colors.red,
-          gravity: ToastGravity.CENTER);
+      // Fluttertoast.showToast(
+      //     msg: "Nim or password is wrong!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     fontSize: 16,
+      //     backgroundColor: Colors.red,
+      //     gravity: ToastGravity.CENTER);
     } else {
       if (data[0]['status'] == 'Aktif') {
         setState(() {
@@ -48,17 +48,19 @@ class _LoginMHSState extends State<LoginMHS> {
         });
         EasyLoading.show(status: 'Loading..');
         Future.delayed(Duration(seconds: 2), () => EasyLoading.dismiss());
-        Future.delayed(Duration(seconds: 2),
-            () => context.goNamed('home', queryParams: {"nama": namaMhs}));
+        Future.delayed(
+            Duration(seconds: 2),
+            () => context.goNamed('home',
+                queryParams: {"nama": namaMhs, "nim": nimMhs}));
 
         print('Bisa login');
       } else {
-        Fluttertoast.showToast(
-            msg: "Akun anda tidak aktif!",
-            toastLength: Toast.LENGTH_SHORT,
-            fontSize: 16,
-            backgroundColor: Colors.red,
-            gravity: ToastGravity.CENTER);
+        // Fluttertoast.showToast(
+        //     msg: "Akun anda tidak aktif!",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     fontSize: 16,
+        //     backgroundColor: Colors.red,
+        //     gravity: ToastGravity.CENTER);
         print('gabisa login');
       }
     }
