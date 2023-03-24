@@ -25,33 +25,41 @@ class _MainMenuState extends State<MainMenu> {
     setState(() {
       nimMahasiwa = int.parse(nimMhs);
     });
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-                flex: 3,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(25),
-                          bottomRight: Radius.circular(25))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+              flex: 4,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40),
+                        bottomRight: Radius.circular(40))),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 35),
+                      child: Expanded(
+                        flex: 1,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Image.asset('assets/image/poltekgt.png', scale: 5),
+                            Image.asset('assets/image/poltekgt.png', scale: 3),
+                            Text('Sistem Informasi Akademik',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white)),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +70,7 @@ class _MainMenuState extends State<MainMenu> {
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white)),
                             Text(
-                              'Welcome Back',
+                              'Selamat Datang',
                               style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
@@ -81,101 +89,101 @@ class _MainMenuState extends State<MainMenu> {
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                )),
-            Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      dateNow.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                     ),
-                  ),
-                )),
-            Expanded(
-              flex: 8,
-              child: Container(
-                  child: Padding(
+                  ],
+                ),
+              )),
+          Expanded(
+              flex: 1,
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: GridView.builder(
-                    itemCount: menuList.length,
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15),
-                    itemBuilder: (context, index) {
-                      return Material(
-                        borderRadius: BorderRadius.circular(20),
-                        color: menuList[index].color,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(20),
-                          splashColor: Colors.grey.shade200,
-                          onTap: () {
-                            if (menuList[index].navigate == 'logout') {
-                              context.goNamed('login');
-                            } else if (menuList[index].navigate == 'profile') {
-                              context.goNamed('profile', queryParams: {
-                                "nim": nimMhs,
-                                "nama": namaMhs
-                              });
-                            } else if (menuList[index].navigate == 'akademik') {
-                              context.goNamed('akademik', queryParams: {
-                                "nama": namaMhs,
-                                "nim": nimMhs
-                              });
-                            } else {
-                              const snackbar = SnackBar(
-                                backgroundColor: Colors.grey,
-                                content: Text('Coming Soon!'),
-                                behavior: SnackBarBehavior.floating,
-                              );
-
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackbar);
-                              // context.goNamed('${menuList[index].navigate}');
-                            }
-                          },
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor:
-                                      Colors.white.withOpacity(0.5),
-                                  radius: 30,
-                                  child: Center(
-                                      child: Image.asset(
-                                    'assets/image/${menuList[index].image}',
-                                    scale: 15,
-                                    color: menuList[index].tcolor,
-                                  )),
-                                ),
-                                Text(
-                                  menuList[index].title,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: menuList[index].tcolor),
-                                  overflow: TextOverflow.clip,
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                child: Center(
+                  child: Text(
+                    dateNow.toString(),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                   ),
                 ),
               )),
-            )
-          ],
-        ),
+          Expanded(
+            flex: 8,
+            child: Container(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: GridView.builder(
+                  itemCount: menuList.length,
+                  scrollDirection: Axis.vertical,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15),
+                  itemBuilder: (context, index) {
+                    return Material(
+                      borderRadius: BorderRadius.circular(20),
+                      color: menuList[index].color,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        splashColor: Colors.grey.shade200,
+                        onTap: () {
+                          if (menuList[index].navigate == 'logout') {
+                            context.goNamed('login');
+                          } else if (menuList[index].navigate == 'profile') {
+                            context.goNamed('profile',
+                                queryParams: {"nim": nimMhs, "nama": namaMhs});
+                          } else if (menuList[index].navigate == 'akademik') {
+                            context.goNamed('akademik',
+                                queryParams: {"nama": namaMhs, "nim": nimMhs});
+                          } else if (menuList[index].navigate == 'point') {
+                            context.goNamed('point',
+                                queryParams: {"nama": namaMhs, "nim": nimMhs});
+                          } else if (menuList[index].navigate == 'ubahpw') {
+                            context.goNamed('ubahpw',
+                                queryParams: {"nama": namaMhs, "nim": nimMhs});
+                          } else {
+                            const snackbar = SnackBar(
+                              backgroundColor: Colors.grey,
+                              content: Text('Coming Soon!'),
+                              behavior: SnackBarBehavior.floating,
+                            );
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                            // context.goNamed('${menuList[index].navigate}');
+                          }
+                        },
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.white.withOpacity(0.5),
+                                radius: 30,
+                                child: Center(
+                                    child: Image.asset(
+                                  'assets/image/${menuList[index].image}',
+                                  scale: 15,
+                                  color: menuList[index].tcolor,
+                                )),
+                              ),
+                              Text(
+                                menuList[index].title,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: menuList[index].tcolor),
+                                overflow: TextOverflow.clip,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )),
+          )
+        ],
       ),
     );
   }
