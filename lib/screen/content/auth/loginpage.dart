@@ -100,7 +100,7 @@ class _LoginMHSState extends State<LoginMHS> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.09),
-                      child: Image.asset("assets/image/fotologin.jpg"),
+                      child: Image.asset("assets/image/book.jpg"),
                     ),
                     SizedBox(height: 10),
                     Padding(

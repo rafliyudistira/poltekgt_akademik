@@ -61,11 +61,12 @@ class _ProfileMHSState extends State<ProfileMHS> {
                                   height: 35,
                                 ),
                                 CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/image/poltekgt.png'),
+                                  child: Text(namaMhs[0],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 35)),
                                   radius: 60,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 255, 255, 255),
+                                  backgroundColor: Colors.grey.shade200,
                                 ),
                                 SizedBox(
                                   height: 20,

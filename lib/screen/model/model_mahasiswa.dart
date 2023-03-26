@@ -142,11 +142,11 @@ class Logkondite {
   }
 }
 
-String ipSaya = "192.168.43.34";
+String ipSaya = "http://192.168.43.34/back_sisfo";
 
 class NilaiAkademikApi {
   static Future<List<AkademikSiswa>> getAkademik(String query, int nim) async {
-    final url = Uri.parse("http://${ipSaya}/back_sisfo/filter-tahun/${nim}");
+    final url = Uri.parse("${ipSaya}/filter-tahun/${nim}");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -164,8 +164,7 @@ class NilaiAkademikApi {
 }
 
 Future<List<MahasiswaModel>> getAllMahasiswa() async {
-  var result =
-      await http.get(Uri.parse("http://${ipSaya}/back_sisfo/all-mahasiswa"));
+  var result = await http.get(Uri.parse("${ipSaya}/all-mahasiswa"));
   Iterable i = jsonDecode(result.body);
 
   List<MahasiswaModel> dataMhs =
@@ -179,22 +178,19 @@ Future<List<MahasiswaModel>> getAllMahasiswa() async {
 }
 
 Future<http.Response> getNimMahasiswa(int nim) async {
-  var result =
-      await http.get(Uri.parse("http://${ipSaya}/back_sisfo/mahasiswa/${nim}"));
+  var result = await http.get(Uri.parse("${ipSaya}/mahasiswa/${nim}"));
 
   return result;
 }
 
 Future<http.Response> getIpkMahasiswa(int nim) async {
-  var result = await http
-      .get(Uri.parse("http://${ipSaya}/back_sisfo/akademik-mahasiswa/${nim}"));
+  var result = await http.get(Uri.parse("${ipSaya}/akademik-mahasiswa/${nim}"));
 
   return result;
 }
 
 Future<List<AkademikSiswa>> getNilaiMahasiswa(int nim) async {
-  var result = await http
-      .get(Uri.parse("http://${ipSaya}/back_sisfo/nilai-mahasiswa/${nim}"));
+  var result = await http.get(Uri.parse("${ipSaya}/nilai-mahasiswa/${nim}"));
   Iterable i = jsonDecode(result.body);
 
   List<AkademikSiswa> dataMhs =
@@ -208,7 +204,13 @@ Future<List<AkademikSiswa>> getNilaiMahasiswa(int nim) async {
 
 Future<List<Logkondite>> getLogkondite(int nim) async {
   var result = await http.get(
-      Uri.parse("http://${ipSaya}/back_sisfo/logkondite-mahasiswa/${nim}"));
+    Uri.parse("${ipSaya}/logkondite-mahasiswa/${nim}"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+    },
+  );
+
   Iterable i = jsonDecode(result.body);
 
   List<Logkondite> dataLog =
@@ -221,8 +223,7 @@ Future<List<Logkondite>> getLogkondite(int nim) async {
 }
 
 Future<List<AkademikSiswa>> filterTahun(int nim, int tahun) async {
-  var result = await http
-      .get(Uri.parse("http://${ipSaya}/back_sisfo/filter/${nim}/${tahun}"));
+  var result = await http.get(Uri.parse("${ipSaya}/filter/${nim}/${tahun}"));
   Iterable i = jsonDecode(result.body);
 
   List<AkademikSiswa> dataMhs =
