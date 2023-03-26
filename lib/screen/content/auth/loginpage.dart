@@ -25,7 +25,7 @@ class _LoginMHSState extends State<LoginMHS> {
 
   void login(BuildContext context) async {
     // ganti ip dengan ip local anda
-    var url = "http://192.168.137.235/back_sisfo/login";
+    var url = "http://192.168.43.34/back_sisfo/LoginAuth.php";
     var response = await http
         .post(Uri.parse(url), body: {"nim": _nim.text, "password": _pass.text});
 
@@ -34,19 +34,22 @@ class _LoginMHSState extends State<LoginMHS> {
     // kondisi buat login
     if (data.length < 1) {
       print('Kosong');
-      // Fluttertoast.showToast(
-      //     msg: "Nim or password is wrong!",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     fontSize: 16,
-      //     backgroundColor: Colors.red,
-      //     gravity: ToastGravity.CENTER);
+      Fluttertoast.showToast(
+          msg: "Nim atau password salah!",
+          toastLength: Toast.LENGTH_SHORT,
+          fontSize: 16,
+          backgroundColor: Colors.red,
+          gravity: ToastGravity.CENTER);
     } else {
       if (data[0]['status'] == 'Aktif') {
         setState(() {
           namaMhs = data[0]['nama'];
           nimMhs = data[0]['nim'];
         });
-        EasyLoading.show(status: 'Loading..');
+
+        EasyLoading.show(
+          status: 'Loading...',
+        );
         Future.delayed(Duration(seconds: 2), () => EasyLoading.dismiss());
         Future.delayed(
             Duration(seconds: 2),
@@ -55,12 +58,12 @@ class _LoginMHSState extends State<LoginMHS> {
 
         print('Bisa login');
       } else {
-        // Fluttertoast.showToast(
-        //     msg: "Akun anda tidak aktif!",
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     fontSize: 16,
-        //     backgroundColor: Colors.red,
-        //     gravity: ToastGravity.CENTER);
+        Fluttertoast.showToast(
+            msg: "Akun anda tidak aktif!",
+            toastLength: Toast.LENGTH_SHORT,
+            fontSize: 16,
+            backgroundColor: Colors.red,
+            gravity: ToastGravity.CENTER);
         print('gabisa login');
       }
     }
@@ -69,8 +72,7 @@ class _LoginMHSState extends State<LoginMHS> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Stack(
+      body: Stack(
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
@@ -79,7 +81,7 @@ class _LoginMHSState extends State<LoginMHS> {
           ),
           const TopSginin(),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.10,
+            top: MediaQuery.of(context).size.height * 0.15,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.9,
               width: MediaQuery.of(context).size.width,
@@ -98,7 +100,7 @@ class _LoginMHSState extends State<LoginMHS> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.09),
-                      child: Image.asset("assets/image/book.jpg"),
+                      child: Image.asset("assets/image/fotologin.jpg"),
                     ),
                     SizedBox(height: 10),
                     Padding(
@@ -107,7 +109,7 @@ class _LoginMHSState extends State<LoginMHS> {
                         controller: _nim,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Cannot empty!";
+                            return "Harus diisi!";
                           }
                           return null;
                         },
@@ -116,23 +118,23 @@ class _LoginMHSState extends State<LoginMHS> {
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.red),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                           labelText: 'Nim',
                           focusedErrorBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.red),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                           focusedBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.blue),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                           enabledBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.grey),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                         ),
                       ),
                     ),
@@ -148,9 +150,9 @@ class _LoginMHSState extends State<LoginMHS> {
                         obscureText: _visible,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Cannot empty!";
+                            return "Harus diisi!";
                           } else if (value.length < 6) {
-                            return "Password at least more than 6";
+                            return "Password harus lebih dari 6";
                           }
                           return null;
                         },
@@ -169,22 +171,22 @@ class _LoginMHSState extends State<LoginMHS> {
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.red),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                           focusedErrorBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.red),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                           focusedBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.blue),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                           enabledBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1.5, color: Colors.grey),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  BorderRadius.all(Radius.circular(15))),
                         ),
                       ),
                     ),
@@ -198,7 +200,7 @@ class _LoginMHSState extends State<LoginMHS> {
                           child: InkWell(
                             onTap: () {},
                             child: Text(
-                              "Forgot Password?",
+                              "Lupa Password?",
                               style: TextStyle(
                                   color: blue.withOpacity(0.7),
                                   fontWeight: FontWeight.w500),
@@ -224,10 +226,10 @@ class _LoginMHSState extends State<LoginMHS> {
                         decoration: BoxDecoration(
                             color: Colors.blue,
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(25))),
+                                const BorderRadius.all(Radius.circular(15))),
                         child: Center(
                           child: Text(
-                            "Sign in",
+                            "Masuk",
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
@@ -242,7 +244,7 @@ class _LoginMHSState extends State<LoginMHS> {
             ),
           ),
         ],
-      )),
+      ),
     );
   }
 }
@@ -284,7 +286,7 @@ class _CheckerBoxState extends State<CheckerBox> {
               }),
           Text.rich(
             TextSpan(
-              text: "Remember me",
+              text: "Ingat saya",
               style: TextStyle(color: grayshade.withOpacity(0.8), fontSize: 16),
             ),
           ),
@@ -419,25 +421,32 @@ class TopSginin extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset(
-            'assets/image/poltekgt.png',
-            scale: 5,
-          ),
-          // const SizedBox(
-          //   width: 15,
-          // ),
-          Text(
-            "POLITEKNIK GAJAH TUNGGAL",
-            style: TextStyle(color: whiteshade, fontSize: 18),
-          ),
-          Image.asset(
-            'assets/image/poltekgt.png',
-            scale: 5,
-            color: Colors.transparent,
-          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 35,
+            ),
+            child: Expanded(
+                child: Row(
+              children: [
+                Image.asset(
+                  'assets/image/poltekgt.png',
+                  scale: 3.5,
+                ),
+                // const SizedBox(
+                //   width: 15,
+                // ),
+                Text(
+                  "POLITEKNIK GAJAH TUNGGAL",
+                  style: TextStyle(
+                      color: whiteshade,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            )),
+          )
         ],
       ),
     );

@@ -25,60 +25,60 @@ class _MainMenuState extends State<MainMenu> {
     setState(() {
       nimMahasiwa = int.parse(nimMhs);
     });
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       color: Colors.blue,
                       borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(25),
-                          bottomRight: Radius.circular(25))),
+                          bottomLeft: Radius.circular(40),
+                          bottomRight: Radius.circular(40))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.asset('assets/image/poltekgt.png', scale: 5),
-                          ],
-                        ),
+                      Center(
+                        child: Text('Sistem Informasi Akademik',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white)),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Hi , ${namaMhs}',
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Hi , ${namaMhs}',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
+                              Text(
+                                'Selamat Datang',
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white)),
-                            Text(
-                              'Welcome Back',
-                              style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                            // FutureBuilder<http.Response>(
-                            //   future: getNimMahasiswa(nimMahasiwa),
-                            //   builder: (context, snapshot) {
-                            //     if (snapshot.hasData) {
-                            //       var json = jsonDecode(snapshot.data!.body);
-                            //       return Text(json['kelas']);
-                            //     }
-                            //     return Container();
-                            //   },
-                            // )
-                          ],
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              // FutureBuilder<http.Response>(
+                              //   future: getNimMahasiswa(nimMahasiwa),
+                              //   builder: (context, snapshot) {
+                              //     if (snapshot.hasData) {
+                              //       var json = jsonDecode(snapshot.data!.body);
+                              //       return Text(json['kelas']);
+                              //     }
+                              //     return Container();
+                              //   },
+                              // )
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -129,6 +129,22 @@ class _MainMenuState extends State<MainMenu> {
                                 "nama": namaMhs,
                                 "nim": nimMhs
                               });
+                            } else if (menuList[index].navigate == 'point') {
+                              context.goNamed('point', queryParams: {
+                                "nama": namaMhs,
+                                "nim": nimMhs
+                              });
+                            } else if (menuList[index].navigate == 'ubahpw') {
+                              const snackbar = SnackBar(
+                                backgroundColor: Colors.grey,
+                                content: Text('Coming Soon!'),
+                                behavior: SnackBarBehavior.floating,
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackbar);
+                              // context.goNamed('ubahpw',
+                              //     queryParams: {"nama": namaMhs, "nim": nimMhs});
                             } else {
                               const snackbar = SnackBar(
                                 backgroundColor: Colors.grey,
@@ -258,14 +274,14 @@ class Menu {
 List<Menu> menuList = <Menu>[
   Menu(
       title: 'Akademik',
-      color: Colors.green.shade100,
-      tcolor: Colors.green,
+      color: Colors.blue.shade100,
+      tcolor: Colors.blue,
       image: 'akademik.png',
       navigate: 'akademik'),
   Menu(
       title: 'Point',
-      color: Colors.blue.shade100,
-      tcolor: Colors.blue,
+      color: Colors.green.shade100,
+      tcolor: Colors.green,
       image: 'spam.png',
       navigate: 'point'),
   Menu(

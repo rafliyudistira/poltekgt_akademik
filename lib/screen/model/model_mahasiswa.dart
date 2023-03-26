@@ -86,30 +86,82 @@ class AkademikSiswa {
       required this.status,
       required this.statusmk});
 
-  factory AkademikSiswa.fromJson(Map<String, dynamic> json) {
-    return AkademikSiswa(
-        nim: json['nim'],
-        nama: json['nama'],
-        uts: json['uts'],
-        uas: json['uas'],
-        tugas: json['tugas'],
-        kuis: json['kuis'],
-        akhir: json['akhir'],
-        huruf: json['huruf'],
-        angka: json['angka'],
-        kodemk: json['kodemk'],
-        namamk: json['namamk'],
-        sks: json['sks'],
-        tahunakademik: json['tahunakademik'],
-        prodi: json['prodi'],
-        dosen: json['dosen'],
-        kelas: json['kelas'],
-        status: json['status'],
-        statusmk: json['statusmk']);
+  factory AkademikSiswa.fromJson(Map<String, dynamic> json) => AkademikSiswa(
+      nim: json['nim'],
+      nama: json['nama'],
+      uts: json['uts'],
+      uas: json['uas'],
+      tugas: json['tugas'],
+      kuis: json['kuis'],
+      akhir: json['akhir'],
+      huruf: json['huruf'],
+      angka: json['angka'],
+      kodemk: json['kodemk'],
+      namamk: json['namamk'],
+      sks: json['sks'],
+      tahunakademik: json['tahunakademik'],
+      prodi: json['prodi'],
+      dosen: json['dosen'],
+      kelas: json['kelas'],
+      status: json['status'],
+      statusmk: json['statusmk']);
+}
+
+class Logkondite {
+  final String nim;
+  final String nama;
+  final String jenispoin;
+  final String poin;
+  final String keterangan;
+  final String tahun;
+  final String prodi;
+  final String tanggal;
+
+  Logkondite({
+    required this.nim,
+    required this.nama,
+    required this.jenispoin,
+    required this.poin,
+    required this.keterangan,
+    required this.tahun,
+    required this.prodi,
+    required this.tanggal,
+  });
+
+  factory Logkondite.fromJson(Map<String, dynamic> json) {
+    return Logkondite(
+      nim: json['nim'],
+      nama: json['nama'],
+      jenispoin: json['jenispoin'],
+      poin: json['poin'],
+      keterangan: json['keterangan'],
+      tahun: json['tahun'],
+      prodi: json['prodi'],
+      tanggal: json['tanggal'],
+    );
   }
 }
 
-String ipSaya = "192.168.137.235";
+String ipSaya = "192.168.43.34";
+
+class NilaiAkademikApi {
+  static Future<List<AkademikSiswa>> getAkademik(String query, int nim) async {
+    final url = Uri.parse("http://${ipSaya}/back_sisfo/filter-tahun/${nim}");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List nilai = json.decode(response.body);
+      return nilai.map((json) => AkademikSiswa.fromJson(json)).where((nilai) {
+        final tahunLower = nilai.tahunakademik.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return tahunLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
+}
 
 Future<List<MahasiswaModel>> getAllMahasiswa() async {
   var result =
@@ -118,6 +170,7 @@ Future<List<MahasiswaModel>> getAllMahasiswa() async {
 
   List<MahasiswaModel> dataMhs =
       List<MahasiswaModel>.from(i.map((e) => MahasiswaModel.fromJson(e)));
+
   if (result.statusCode == 200) {
     return dataMhs;
   } else {
@@ -132,9 +185,9 @@ Future<http.Response> getNimMahasiswa(int nim) async {
   return result;
 }
 
-Future<http.Response> get(int nim) async {
-  var result =
-      await http.get(Uri.parse("http://${ipSaya}/back_sisfo/mahasiswa/${nim}"));
+Future<http.Response> getIpkMahasiswa(int nim) async {
+  var result = await http
+      .get(Uri.parse("http://${ipSaya}/back_sisfo/akademik-mahasiswa/${nim}"));
 
   return result;
 }
@@ -146,6 +199,35 @@ Future<List<AkademikSiswa>> getNilaiMahasiswa(int nim) async {
 
   List<AkademikSiswa> dataMhs =
       List<AkademikSiswa>.from(i.map((e) => AkademikSiswa.fromJson(e)));
+  if (result.statusCode == 200) {
+    return dataMhs;
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<Logkondite>> getLogkondite(int nim) async {
+  var result = await http.get(
+      Uri.parse("http://${ipSaya}/back_sisfo/logkondite-mahasiswa/${nim}"));
+  Iterable i = jsonDecode(result.body);
+
+  List<Logkondite> dataLog =
+      List<Logkondite>.from(i.map((e) => Logkondite.fromJson(e)));
+  if (result.statusCode == 200) {
+    return dataLog;
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<List<AkademikSiswa>> filterTahun(int nim, int tahun) async {
+  var result = await http
+      .get(Uri.parse("http://${ipSaya}/back_sisfo/filter/${nim}/${tahun}"));
+  Iterable i = jsonDecode(result.body);
+
+  List<AkademikSiswa> dataMhs =
+      List<AkademikSiswa>.from(i.map((e) => AkademikSiswa.fromJson(e)));
+
   if (result.statusCode == 200) {
     return dataMhs;
   } else {

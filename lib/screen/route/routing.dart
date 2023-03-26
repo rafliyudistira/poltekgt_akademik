@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:sisfo_pgt/screen/content/Home/content/dataNilai/datanilai.dart';
+import 'package:sisfo_pgt/screen/content/Home/content/changePass/changePassword.dart';
+import 'package:sisfo_pgt/screen/content/Home/content/dataNilai/nilaiAk.dart';
+import 'package:sisfo_pgt/screen/content/Home/content/point/point.dart';
 import 'package:sisfo_pgt/screen/content/Home/content/profile/profilemhs.dart';
 import 'package:sisfo_pgt/screen/content/Home/mainmenu.dart';
 import 'package:sisfo_pgt/screen/content/auth/loginpage.dart';
@@ -21,7 +23,15 @@ class AppRoute {
           GoRoute(
               path: 'akademik',
               name: 'akademik',
-              builder: (context, state) => DataNilai(goRouterState: state))
+              builder: (context, state) => NilaiAkademik(goRouterState: state)),
+          GoRoute(
+              path: 'point',
+              name: 'point',
+              builder: (context, state) => Point(goRouterState: state)),
+          GoRoute(
+              path: "ubahpw",
+              name: 'ubahpw',
+              builder: (context, state) => ChangePass()),
         ])
   ], initialLocation: "/login", routerNeglect: true);
 }
