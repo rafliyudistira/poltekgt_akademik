@@ -231,7 +231,7 @@ class _NilaiAkademikState extends State<NilaiAkademik> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: ExpansionTile(
-            collapsedBackgroundColor: Colors.grey[300],
+            collapsedBackgroundColor: Colors.grey[200],
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
