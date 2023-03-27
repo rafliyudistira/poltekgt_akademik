@@ -34,12 +34,12 @@ class _LoginMHSState extends State<LoginMHS> {
     // kondisi buat login
     if (data.length < 1) {
       print('Kosong');
-      Fluttertoast.showToast(
-          msg: "Nim atau password salah!",
-          toastLength: Toast.LENGTH_SHORT,
-          fontSize: 16,
-          backgroundColor: Colors.red,
-          gravity: ToastGravity.CENTER);
+      // Fluttertoast.showToast(
+      //     msg: "Nim atau password salah!",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     fontSize: 16,
+      //     backgroundColor: Colors.red,
+      //     gravity: ToastGravity.CENTER);
     } else {
       if (data[0]['status'] == 'Aktif') {
         setState(() {
@@ -47,10 +47,10 @@ class _LoginMHSState extends State<LoginMHS> {
           nimMhs = data[0]['nim'];
         });
 
-        EasyLoading.show(
-          status: 'Loading...',
-        );
-        Future.delayed(Duration(seconds: 2), () => EasyLoading.dismiss());
+        // EasyLoading.show(
+        //   status: 'Loading...',
+        // );
+        // Future.delayed(Duration(seconds: 2), () => EasyLoading.dismiss());
         Future.delayed(
             Duration(seconds: 2),
             () => context.goNamed('home',
@@ -58,12 +58,12 @@ class _LoginMHSState extends State<LoginMHS> {
 
         print('Bisa login');
       } else {
-        Fluttertoast.showToast(
-            msg: "Akun anda tidak aktif!",
-            toastLength: Toast.LENGTH_SHORT,
-            fontSize: 16,
-            backgroundColor: Colors.red,
-            gravity: ToastGravity.CENTER);
+        // Fluttertoast.showToast(
+        //     msg: "Akun anda tidak aktif!",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     fontSize: 16,
+        //     backgroundColor: Colors.red,
+        //     gravity: ToastGravity.CENTER);
         print('gabisa login');
       }
     }

@@ -7,11 +7,13 @@ class SearchClass extends StatefulWidget {
   final String Text;
   final ValueChanged<String> onChanged;
   final String hintText;
+  final int nimMahasiswa;
   const SearchClass(
       {Key? key,
       required this.Text,
       required this.onChanged,
-      required this.hintText})
+      required this.hintText,
+      required this.nimMahasiswa})
       : super(key: key);
 
   @override
@@ -21,52 +23,92 @@ class SearchClass extends StatefulWidget {
 class _SearchClassState extends State<SearchClass> {
   final controller = TextEditingController();
 
+  var _valTahun;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Perincian Nilai',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 37, 37, 37)),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  // color: Color.fromARGB(255, 187, 187, 187),
-                  ),
-              width: MediaQuery.of(context).size.width / 2,
-              child: TextFormField(
-                controller: controller,
-                decoration: InputDecoration(
-                    labelText: 'Tahun Akademik',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    suffixIcon: widget.Text.isNotEmpty
-                        ? GestureDetector(
-                            child: Icon(Icons.close),
-                            onTap: () {
-                              controller.clear();
-                              widget.onChanged('');
-                              // FocusScope.of(context).requestFocus(Focu)
-                            },
-                          )
-                        : null,
-                    hintText: widget.hintText),
-                onChanged: widget.onChanged,
+    var nimMahasiswa = widget.nimMahasiswa;
+
+    return FutureBuilder<List<AkademikSiswa>>(
+        future: getNilaiMahasiswa(nimMahasiswa),
+        builder: (context, AsyncSnapshot<dynamic> snapshotI) {
+          if (snapshotI.hasData) {
+            print(nimMahasiswa);
+            print(snapshotI.data[1].tahunakademik);
+            List tahun = [];
+            List filteredTahun = [];
+
+            for (int i = 0; i < snapshotI.data.length; i++) {
+              tahun.add(snapshotI.data[i].tahunakademik);
+              filteredTahun.add(snapshotI.data[i].tahunakademik);
+            }
+            var tahunAK = tahun.toSet().toList();
+            // var _valTahun = tahunAK[0];
+
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Perincian Nilai',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 37, 37, 37)),
+                    ),
+                    DropdownButton(
+                      borderRadius: BorderRadius.circular(10),
+
+                      value:
+                          _valTahun, //implement initial value or selected value
+                      onChanged: (value) {
+                        widget.onChanged(value.toString());
+                        setState(() {
+                          //set state will update UI and State of your App
+                          _valTahun =
+                              value.toString(); //change selectval to new value
+                        });
+                      },
+                      items: tahunAK.map((itemone) {
+                        return DropdownMenuItem(
+                            value: itemone, child: Text(itemone));
+                      }).toList(),
+                    ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       // color: Color.fromARGB(255, 187, 187, 187),
+                    //       ),
+                    //   width: MediaQuery.of(context).size.width / 2,
+                    //   child: TextFormField(
+                    //     controller: controller,
+                    //     decoration: InputDecoration(
+                    //         labelText: 'Tahun Akademik',
+                    //         prefixIcon: Icon(Icons.search),
+                    //         border: OutlineInputBorder(
+                    //             borderRadius: BorderRadius.circular(10)),
+                    //         suffixIcon: widget.Text.isNotEmpty
+                    //             ? GestureDetector(
+                    //                 child: Icon(Icons.close),
+                    //                 onTap: () {
+                    //                   controller.clear();
+                    //                   widget.onChanged('');
+                    //                   // FocusScope.of(context).requestFocus(Focu)
+                    //                 },
+                    //               )
+                    //             : null,
+                    //         hintText: widget.hintText),
+                    //     onChanged: widget.onChanged,
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            );
+          }
+          return Container();
+        });
   }
 }
 
@@ -204,18 +246,9 @@ class _NilaiAkademikState extends State<NilaiAkademik> {
                             physics: BouncingScrollPhysics(),
                           )
                         : Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: CircularProgressIndicator(),
-                              ),
-                              Text(
-                                'Silahkan cari tahun dulu',
-                                style: TextStyle(fontSize: 15),
-                              )
-                            ],
+                            child: Text(
+                            'Silahkan pilih tahun terlebih dahulu',
+                            style: TextStyle(fontSize: 15),
                           ))),
               ),
             ],
@@ -223,8 +256,11 @@ class _NilaiAkademikState extends State<NilaiAkademik> {
         ));
   }
 
-  Widget buildSearch() =>
-      SearchClass(Text: query, onChanged: searchNilai, hintText: '');
+  Widget buildSearch() => SearchClass(
+      Text: query,
+      onChanged: searchNilai,
+      hintText: '',
+      nimMahasiswa: nimSiswa);
 
   Widget buildnilai(AkademikSiswa siswa) => Padding(
         padding: const EdgeInsets.all(8.0),
